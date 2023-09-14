@@ -1,0 +1,29 @@
+Hidden Message Problem. Finding a hidden message in
+a string.
+• Input. A string Text (representing oriC).
+• Output. A hidden message in Text.
+
+import re
+
+def find_hidden_message(text, pattern):
+    # Search for the pattern in the input text
+    matches = re.finditer(pattern, text, re.IGNORECASE)
+    
+    # Extract and return the matched sequences as hidden messages
+    hidden_messages = [match.group() for match in matches]
+    
+    return hidden_messages
+
+# Example usage:
+oriC_sequence = "ACGTAGCTAGCTAGCTAGCTAGCTA"
+pattern_to_find = "CTAGCTA"  # Replace with the specific pattern you're looking for
+
+hidden_messages = find_hidden_message(oriC_sequence, pattern_to_find)
+
+if hidden_messages:
+    print("Hidden Message(s):")
+    for message in hidden_messages:
+        print(message)
+else:
+    print("No hidden message found.")
+

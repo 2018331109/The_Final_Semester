@@ -1,0 +1,31 @@
+Skew Diagram
+
+import matplotlib.pyplot as plt
+
+def skew_diagram(sequence, window_size):
+    skew_values = []
+    current_skew = 0
+
+    for i in range(len(sequence)):
+        if sequence[i] == 'G':
+            current_skew += 1
+        elif sequence[i] == 'C':
+            current_skew -= 1
+
+        if (i + 1) % window_size == 0:
+            skew_values.append(current_skew)
+
+    # Plot the skew values
+    plt.plot(range(0, len(sequence), window_size), skew_values)
+    plt.xlabel("Position")
+    plt.ylabel("G-C Skew")
+    plt.title("Skew Diagram")
+    plt.grid(True)
+    plt.show()
+
+# Example usage:
+sequence = "ACGTAGCTAGCTAGCTAGCTAGCTA"
+window_size = 5
+
+skew_diagram(sequence, window_size)
+

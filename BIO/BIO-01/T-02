@@ -1,0 +1,25 @@
+Hidden Message Problem. Finding a hidden message in
+a string.
+• Input. A string Text (representing replication origin).
+• Output. A hidden message in Text.
+
+from collections import Counter
+
+def find_hidden_message(text):
+    # Remove whitespace and convert the text to lowercase for better analysis
+    text = text.replace(" ", "").lower()
+    
+    # Calculate the frequency of each character in the text
+    char_count = Counter(text)
+    
+    # Find the character(s) with the highest frequency
+    max_count = max(char_count.values())
+    hidden_message = [char for char, count in char_count.items() if count == max_count]
+    
+    return "".join(hidden_message)
+
+# Example usage:
+text = "Your replication origin message goes here"
+hidden_message = find_hidden_message(text)
+print("Hidden Message:", hidden_message)
+

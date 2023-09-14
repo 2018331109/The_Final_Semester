@@ -1,0 +1,62 @@
+Clump Finding Problem. Find patterns forming clumps in a
+string.
+• Input. A string Genome and integers k (length of a pattern), L
+(window length), and t (number of patterns in a clump).
+• Output. All k-mers forming (L, t)-clumps in Genome.
+
+def find_clumps(genome, k, L, t):
+    clumps = []
+
+    # Initialize a dictionary to store k-mer counts within the current window
+    kmer_counts = {}
+    
+    # Create a function to add a k-mer to the dictionary and increment its count
+    def add_kmer(kmer):
+        if kmer in kmer_counts:
+            kmer_counts[kmer] += 1
+        else:
+            kmer_counts[kmer] = 1
+    
+    # Create a function to remove a k-mer from the dictionary if its count reaches 0
+    def remove_kmer(kmer):
+        if kmer_counts[kmer] == 1:
+            del kmer_counts[kmer]
+        else:
+            kmer_counts[kmer] -= 1
+
+    # Count k-mers in the initial window of size L
+    for i in range(L):
+        kmer = genome[i:i + k]
+        add_kmer(kmer)
+
+    # Check the k-mer counts in the first window
+    for kmer, count in kmer_counts.items():
+        if count >= t:
+            clumps.append(kmer)
+
+    # Move the sliding window and update k-mer counts
+    for i in range(1, len(genome) - L + 1):
+        remove_kmer(genome[i - 1:i - 1 + k])  # Remove the k-mer that goes out of the window
+        add_kmer(genome[i + L - k:i + L])  # Add the k-mer that enters the window
+        
+        # Check the k-mer counts in the current window
+        for kmer, count in kmer_counts.items():
+            if count >= t:
+                clumps.append(kmer)
+
+    return list(set(clumps))  # Remove duplicates and return unique clumps
+
+# Example usage:
+genome = "ACGTAGCTAGCTAGCTAGCTAGCTA"
+k = 3
+L = 10
+t = 2
+
+clumps = find_clumps(genome, k, L, t)
+
+if clumps:
+    print("Clumps of", k, "mers with at least", t, "occurrences in a window of size", L, ":")
+    print(clumps)
+else:
+    print("No clumps found.")
+

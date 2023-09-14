@@ -1,0 +1,33 @@
+Finding oriC Problem: Finding oriC in a genome.
+• Input. A genome.
+• Output. The location of oriC in the genome.
+
+def find_oric(genome):
+    # Initialize variables to track GC skew
+    gc_skew = [0] * (len(genome) + 1)
+    min_skew = 0
+    min_skew_positions = []
+
+    # Calculate GC skew
+    for i in range(1, len(genome) + 1):
+        if genome[i - 1] == 'C':
+            gc_skew[i] = gc_skew[i - 1] - 1
+        elif genome[i - 1] == 'G':
+            gc_skew[i] = gc_skew[i - 1] + 1
+        else:
+            gc_skew[i] = gc_skew[i - 1]
+
+        if gc_skew[i] < min_skew:
+            min_skew = gc_skew[i]
+            min_skew_positions = [i]
+        elif gc_skew[i] == min_skew:
+            min_skew_positions.append(i)
+
+    # The oriC is often near the position with the minimum GC skew
+    return min_skew_positions
+
+# Example usage:
+genome = "your_genome_sequence_here"
+oric_positions = find_oric(genome)
+print("Predicted oriC positions:", oric_positions)
+

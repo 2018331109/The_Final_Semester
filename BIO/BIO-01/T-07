@@ -1,0 +1,39 @@
+Frequent Words Problem. Finding most frequent k-mers in a string.
+• Input. A string Text and an integer k.
+• Output. All most frequent k-mers in Text.
+
+def find_frequent_kmers(text, k):
+    kmer_count = {}  # Dictionary to store k-mer frequencies
+    max_frequency = 0  # Track the maximum k-mer frequency
+
+    # Iterate through the text to count k-mers
+    for i in range(len(text) - k + 1):
+        kmer = text[i:i + k]  # Extract the k-mer
+
+        # Update k-mer count in the dictionary
+        if kmer in kmer_count:
+            kmer_count[kmer] += 1
+        else:
+            kmer_count[kmer] = 1
+
+        # Update max_frequency
+        max_frequency = max(max_frequency, kmer_count[kmer])
+
+    # Find all k-mers with the maximum frequency
+    frequent_kmers = [kmer for kmer, count in kmer_count.items() if count == max_frequency]
+
+    return frequent_kmers
+
+# Example usage:
+text = "ACGTAGCTAGCTAGCTAGCTAGCTA"
+k = 3  # Replace with the desired k value
+
+frequent_kmers = find_frequent_kmers(text, k)
+
+if frequent_kmers:
+    print("Most Frequent", k, "-mers:")
+    for kmer in frequent_kmers:
+        print(kmer)
+else:
+    print("No frequent k-mers found.")
+
